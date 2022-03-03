@@ -9,7 +9,7 @@ export class RequestService {
     async request(id): Promise<any> {
         try {
             let payload: any = {
-                url: `${process.env.NLP_HOST}/virtual-assistant/${id}`,
+                url: `YOUR_URL`,
             }
 
             const { data }: any = await this.httpService.get(payload.url).toPromise();
