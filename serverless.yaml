@@ -1,0 +1,52 @@
+service: ms-boilerplate-docker
+
+plugins:
+  # - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-plugin-warmup
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  memorySize: 2048
+  timeout: 30
+  #profile: default
+  stage: dev
+  lambdaHashingVersion: 20201221
+  ecr:
+    images:
+      appimage:
+        path: ./
+
+functions:
+  main:
+    image:
+      name: appimage
+      command:
+        - dist/lambda.handler
+      entryPoint:
+        - '/lambda-entrypoint.sh'
+    # handler: src/lambda.handler
+    events:
+      - http:
+          method: any
+          path: /{any+}
+    warmup:
+      default:
+        enabled: true
+package:
+  patterns:
+    - '!**'
+    - '.warmup/default/**'
+
+custom:
+  warmup:
+    default:
+      enabled: true
+      prewarm: true
+      cleanFolder: false
+      memorySize: 128
+      events:
+        - schedule: rate(5 minutes) #cron(0/5 6-20 ? * * *)
+      timeout: 20
