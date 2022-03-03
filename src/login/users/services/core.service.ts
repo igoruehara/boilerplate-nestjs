@@ -31,7 +31,8 @@ export class Service {
   }
 
   async findOneByEmail(email: string): Promise<any> {
-    return await this.model.find({ email });
+    const response = await this.model.find({ email });
+    return response
   }
 
   async update(id: string, updateDto: UpdateDto): Promise<Entity> {

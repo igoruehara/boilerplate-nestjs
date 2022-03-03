@@ -1,8 +1,9 @@
-import { BadRequestException, forwardRef, Inject, Res, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CriptService } from '../utils/bcrypt.service';
 import { Service as UserService } from '../users/services/core.service';
+import { LocalAuthGuard } from '../auth/generate-auth.ts/local-auth.guard';
 
 @Injectable()
 export class LoginService {
@@ -13,7 +14,8 @@ export class LoginService {
 
   async login(user: any): Promise<any> {
     try {
-      const payload = { id: user.id, email: user.email };
+      const userFindDb = await this.service.findOneByEmail(user.email.toLowerCase())
+      const payload = { id: user.id, email: user.email, role: userFindDb[0].role };
       return {
         access_token: await this.jwtService.signAsync(payload),
       };
@@ -32,8 +34,6 @@ export class LoginService {
     if (comparePassword === false) {
       throw new UnauthorizedException('Unauthorized')
     }
-    console.log("ROLEEEEEEE")
-    console.log(userFindDb[0].role)
     return { id: userFindDb[0]._id, email: userFindDb[0].email, role: userFindDb[0].role }
   }
 

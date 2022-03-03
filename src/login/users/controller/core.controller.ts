@@ -10,6 +10,7 @@ import { RequestService } from '../services/request.service';
 import { RolesGuard } from 'src/login/auth/generate-auth.ts/roles.guard';
 import { Role } from 'src/login/auth/enum/role.enum';
 import { Roles } from 'src/login/auth/decorators/roles.decorator';
+import { LocalAuthGuard } from 'src/login/auth/generate-auth.ts/local-auth.guard';
 
 @Controller('api')
 export class CoreController implements Interface {
@@ -17,6 +18,7 @@ export class CoreController implements Interface {
     @Inject(forwardRef(() => LoginService))
     private loginService: LoginService, private requestService: RequestService) { }
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req: any): Promise<any> {
     this.requestService.request()
@@ -31,28 +33,32 @@ export class CoreController implements Interface {
     return await this.service.create(createDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @Get('users')
   async findAll(): Promise<CreateDto[]> {
     return await this.service.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @Get('users/:id')
   async findOne(@Param('id') id: string): Promise<CreateDto> {
     return this.service.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @Patch('users/:id')
   async update(@Param('id') id: string, @Body() updateDto: UpdateDto): Promise<UpdateDto> {
     return this.service.update(id, updateDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @Delete('users/:id')
   async remove(@Param('id') id: string) {

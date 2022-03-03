@@ -5,8 +5,12 @@ import { Interface } from '../interface/Interface';
 import { UpdateDto } from '../dto/update.dto';
 import { JwtAuthGuard } from 'src/login/auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { RolesGuard } from 'src/login/auth/generate-auth.ts/roles.guard';
+import { Roles } from 'src/login/auth/decorators/roles.decorator';
+import { Role } from 'src/login/auth/enum/role.enum';
 
-@UseGuards(JwtAuthGuard)
+@Roles(Role.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth('JWT-auth')
 @Controller('api')
 export class CoreController implements Interface {
