@@ -35,25 +35,6 @@ $ npm run start:prod
 # Deploy to Serverless AWS Lambda, pipeline from Github Actions, config path .github
 $ npm run deploy
 
-## Descrição do Projeto
-
-#if necessary use JWT extends in other project
-<p align="center"
-if you need to use signed JWT authentication created in this project, just copy the *auth* folder with the following files:
-- jwt-auth.guard.ts
-- jwt.modules.ts
-- jwt.strategy.ts
-paste in /src
-
-In the module of the entity that you are going to use, put it in
-imports[ PassportModule]
--> import { PassportModule } from '@nestjs/passport';
-
-and in app.module.ts add
-imports: [JwtModule]
--> import { JwtModule } from './auth/jwt.module';
-</p>
-
 ## Test
 
 ```bash
@@ -66,3 +47,23 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ````
+
+## Use JWT extends in other project
+
+```bash
+# if necessary use JWT extends in other project
+#if you need to use signed JWT authentication created in this project, just copy the auth folder with the following files:
+
+#src/auth
+- jwt-auth.guard.ts
+- jwt.modules.ts
+- jwt.strategy.ts
+
+#In the module of the entity that you are going to use, put it in
+imports[ PassportModule]
+-> import { PassportModule } from '@nestjs/passport';
+
+#and in app.module.ts add
+imports: [JwtModule]
+-> import { JwtModule } from './auth/jwt.module';
+```
