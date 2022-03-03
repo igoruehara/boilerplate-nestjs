@@ -6,15 +6,17 @@ import { LoginService } from 'src/login/services/core.service';
 import { UpdateDto } from '../dto/update.dto';
 import { JwtAuthGuard } from 'src/login/auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { RequestService } from '../services/request.service';
 
 @Controller('api')
 export class CoreController implements Interface {
   constructor(private readonly service: Service,
     @Inject(forwardRef(() => LoginService))
-    private loginService: LoginService) { }
+    private loginService: LoginService, private requestService: RequestService) { }
 
   @Post('login')
   async login(@Request() req: any): Promise<any> {
+    this.requestService.request()
     return await this.loginService.login(req.body)
   }
 

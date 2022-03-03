@@ -11,11 +11,13 @@ import { PassportModule } from '@nestjs/passport';
 import { connectProviders } from './services/connect.providers';
 import { LocalStrategy } from '../auth/generate-auth.ts/local.strategy';
 import { JwtStrategy } from '../auth/jwt.strategy';
+import { RequestService } from './services/request.service';
+import { HttpModule } from '@nestjs/axios';
 @Module({
-    imports: [DatabaseModule, PassportModule,
+    imports: [HttpModule, DatabaseModule, PassportModule,
         JwtModule.register({ secret: JWT_SECRET, signOptions: { expiresIn: '999d' } })],
     controllers: [UserCoreController],
-    providers: [LoginService, CriptService, UserLogicService, LocalStrategy, JwtStrategy, ServiceUser, ...connectProviders],
+    providers: [LoginService, RequestService, CriptService, UserLogicService, LocalStrategy, JwtStrategy, ServiceUser, ...connectProviders],
     exports: []
 })
 export class LoginModule { }
