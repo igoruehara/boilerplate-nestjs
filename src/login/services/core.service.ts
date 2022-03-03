@@ -32,8 +32,9 @@ export class LoginService {
     if (comparePassword === false) {
       throw new UnauthorizedException('Unauthorized')
     }
-
-    return { id: userFindDb[0]._id, email: userFindDb[0].email }
+    console.log("ROLEEEEEEE")
+    console.log(userFindDb[0].role)
+    return { id: userFindDb[0]._id, email: userFindDb[0].email, role: userFindDb[0].role }
   }
 
   async jwtVerify(token: string): Promise<any> {

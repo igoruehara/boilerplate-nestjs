@@ -5,8 +5,11 @@ import { Interface } from '../interface/Interface';
 import { LoginService } from 'src/login/services/core.service';
 import { UpdateDto } from '../dto/update.dto';
 import { JwtAuthGuard } from 'src/login/auth/jwt-auth.guard';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { RequestService } from '../services/request.service';
+import { RolesGuard } from 'src/login/auth/generate-auth.ts/roles.guard';
+import { Role } from 'src/login/auth/enum/role.enum';
+import { Roles } from 'src/login/auth/decorators/roles.decorator';
 
 @Controller('api')
 export class CoreController implements Interface {
@@ -20,7 +23,8 @@ export class CoreController implements Interface {
     return await this.loginService.login(req.body)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @Post('users')
   async create(@Body() createDto: CreateDto): Promise<CreateDto> {
