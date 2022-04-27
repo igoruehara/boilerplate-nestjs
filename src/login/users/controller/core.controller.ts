@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Inject, forwardRef } from '@nestjs/common';
 import { Service } from '../services/core.service';
-import { CreateDto } from '../dto/create.dto';
+import { UserCreateDto } from '../dto/create.dto';
 import { Interface } from '../interface/Interface';
 import { LoginService } from 'src/login/services/core.service';
 import { UpdateDto } from '../dto/update.dto';
@@ -13,7 +13,7 @@ import { Roles } from 'src/login/auth/decorators/roles.decorator';
 import { LocalAuthGuard } from 'src/login/auth/generate-auth.ts/local-auth.guard';
 
 @Controller('api')
-export class CoreController implements Interface {
+export class UserController implements Interface {
   constructor(private readonly service: Service,
     @Inject(forwardRef(() => LoginService))
     private loginService: LoginService, private requestService: RequestService) { }
@@ -29,7 +29,7 @@ export class CoreController implements Interface {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @Post('users')
-  async create(@Body() createDto: CreateDto): Promise<CreateDto> {
+  async create(@Body() createDto: UserCreateDto): Promise<UserCreateDto> {
     return await this.service.create(createDto);
   }
 
@@ -37,7 +37,7 @@ export class CoreController implements Interface {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @Get('users')
-  async findAll(): Promise<CreateDto[]> {
+  async findAll(): Promise<UserCreateDto[]> {
     return await this.service.findAll();
   }
 
@@ -45,7 +45,7 @@ export class CoreController implements Interface {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @Get('users/:id')
-  async findOne(@Param('id') id: string): Promise<CreateDto> {
+  async findOne(@Param('id') id: string): Promise<UserCreateDto> {
     return this.service.findOne(id);
   }
 

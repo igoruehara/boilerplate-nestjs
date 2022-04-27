@@ -2,7 +2,7 @@ import { HttpStatus, Inject } from '@nestjs/common';
 import { HttpException, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { MODEL_NAME } from '../constants/constants';
-import { CreateDto } from '../dto/create.dto';
+import { CreateOrganizationDto } from '../dto/create.dto';
 import { UpdateDto } from '../dto/update.dto';
 import { Interface } from '../interface/Interface';
 import { Entity } from '../schemas/entity.schema';
@@ -12,7 +12,7 @@ export class Service implements Interface {
   constructor(@Inject(MODEL_NAME)
   private model: Model<Entity>,) { }
 
-  async create(createDto: CreateDto): Promise<Entity> {
+  async create(createDto: CreateOrganizationDto): Promise<Entity> {
     return new this.model(createDto).save();
   }
 

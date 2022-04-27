@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { Service } from '../services/core.service';
-import { CreateDto } from '../dto/create.dto';
+import { CreateOrganizationDto } from '../dto/create.dto';
 import { Interface } from '../interface/Interface';
 import { UpdateDto } from '../dto/update.dto';
 import { JwtAuthGuard } from 'src/login/auth/jwt-auth.guard';
@@ -13,21 +13,21 @@ import { Role } from 'src/login/auth/enum/role.enum';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth('JWT-auth')
 @Controller('api')
-export class CoreController implements Interface {
+export class OrganizationController implements Interface {
   constructor(private readonly service: Service) { }
 
   @Post('organization')
-  async create(@Body() createDto: CreateDto): Promise<CreateDto> {
+  async create(@Body() createDto: CreateOrganizationDto): Promise<CreateOrganizationDto> {
     return await this.service.create(createDto);
   }
 
   @Get('organization')
-  async findAll(): Promise<CreateDto[]> {
+  async findAll(): Promise<CreateOrganizationDto[]> {
     return await this.service.findAll();
   }
 
   @Get('organization/:id')
-  async findOne(@Param('id') id: string): Promise<CreateDto> {
+  async findOne(@Param('id') id: string): Promise<CreateOrganizationDto> {
     return this.service.findOne(id);
   }
 

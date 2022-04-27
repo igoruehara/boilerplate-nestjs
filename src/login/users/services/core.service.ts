@@ -2,7 +2,7 @@ import { forwardRef, HttpStatus, Inject } from '@nestjs/common';
 import { HttpException, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { MODEL_NAME } from '../constants/constants';
-import { CreateDto } from '../dto/create.dto';
+import { UserCreateDto } from '../dto/create.dto';
 import { UpdateDto } from '../dto/update.dto';
 import { Entity } from '../schemas/entity.schema';
 import { CriptService } from '../../utils/bcrypt.service';
@@ -13,7 +13,7 @@ export class Service {
     @Inject(forwardRef(() => CriptService))
     private criptService: CriptService) { }
 
-  async create(createDto: CreateDto): Promise<Entity> {
+  async create(createDto: UserCreateDto): Promise<Entity> {
     createDto.password = await this.criptService.password(createDto.password)
     return new this.model(createDto).save();
   }
