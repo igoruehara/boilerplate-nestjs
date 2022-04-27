@@ -1,9 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
-export class CreateOrganizationDto {
+export class LoginDto {
+    @IsString()
+    id:string
     @ApiProperty()
     @IsString()
-    name: string;
+    email: string;
+    @ApiProperty()
+    @IsString()
+    password: string;
 }
 

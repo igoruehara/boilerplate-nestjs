@@ -11,6 +11,7 @@ import { RolesGuard } from 'src/login/auth/generate-auth.ts/roles.guard';
 import { Role } from 'src/login/auth/enum/role.enum';
 import { Roles } from 'src/login/auth/decorators/roles.decorator';
 import { LocalAuthGuard } from 'src/login/auth/generate-auth.ts/local-auth.guard';
+import { LoginDto } from '../dto/login.dto';
 
 @Controller('api')
 export class UserController implements Interface {
@@ -20,9 +21,9 @@ export class UserController implements Interface {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req: any): Promise<any> {
-    this.requestService.request()
-    return await this.loginService.login(req.body)
+  async login(@Body() login: LoginDto): Promise<any> {
+  //this.requestService.request()
+    return await this.loginService.login(login)
   }
 
   @Roles(Role.ADMIN)

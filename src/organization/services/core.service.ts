@@ -32,7 +32,7 @@ export class Service implements Interface {
     return this.model.findOneAndUpdate({ _id: id }, updateDto);
   }
 
-  async remove(id: string): Promise<void> {
-    this.model.findOneAndRemove({ _id: id })
+  async remove(id: string): Promise<any> {
+   return this.model.findOneAndRemove({ _id: id })
   }
 }

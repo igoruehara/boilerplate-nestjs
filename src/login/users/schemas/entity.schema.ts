@@ -21,5 +21,5 @@ export class Entity extends Document {
     @Prop()
     password: string;
     @Prop()
-    role?: Role;
+    role: Role;
 }

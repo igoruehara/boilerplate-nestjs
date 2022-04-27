@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CriptService } from '../utils/bcrypt.service';
 import { Service as UserService } from '../users/services/core.service';
 import { LocalAuthGuard } from '../auth/generate-auth.ts/local-auth.guard';
+import { LoginDto } from '../users/dto/login.dto';
 
 @Injectable()
 export class LoginService {
@@ -12,7 +13,7 @@ export class LoginService {
     private jwtService: JwtService,
     private service: UserService) { }
 
-  async login(user: any): Promise<any> {
+  async login(user: LoginDto): Promise<any> {
     try {
       const userFindDb = await this.service.findOneByEmail(user.email.toLowerCase())
       const payload = { id: user.id, email: user.email, role: userFindDb[0].role };
