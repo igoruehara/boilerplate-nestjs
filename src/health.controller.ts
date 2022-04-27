@@ -1,4 +1,4 @@
-import { Controller, Get, Headers, Res } from '@nestjs/common';;
+import { Controller, Get, Res } from '@nestjs/common';;
 import { Response } from 'express';
 
 @Controller()
@@ -12,7 +12,7 @@ export class HealthController {
   }
 
   @Get('/health')
-  async health(@Res() response: Response, @Headers() headers: any): Promise<any> {
+  async health(@Res() response: Response): Promise<any> {
     return response.status(200).send('ok')
   }
 }
