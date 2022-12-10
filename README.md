@@ -13,6 +13,7 @@
 - [x] Swagger (Local/Serverless)
 - [x] Request API external example with @nestjs/axios
 - [x] Pipeline deploy to AWS Lambda from Github Actions
+- [x] Pipeline deploy to AWS Lambda from Gitlab
 - [x] Roles Guard (user and admin)
 
 ## Installation
