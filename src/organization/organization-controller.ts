@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { Service } from '../services/core.service';
-import { CreateOrganizationDto } from '../dto/create.dto';
-import { Interface } from '../interface/Interface';
-import { UpdateDto } from '../dto/update.dto';
+import { OrganizationService } from './organization-service';
+import { OrganizationDTO } from './organization-dto';
+import { OrganizationInterface } from './organization-interface';
+import { UpdateDto } from './organization-update-dto';
 import { JwtAuthGuard } from 'src/login/auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { RolesGuard } from 'src/login/auth/generate-auth.ts/roles.guard';
@@ -13,31 +13,31 @@ import { Role } from 'src/login/auth/enum/role.enum';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth('JWT-auth')
 @Controller('api')
-export class OrganizationController implements Interface {
-  constructor(private readonly service: Service) { }
+export class OrganizationController implements OrganizationInterface {
+  constructor(private readonly service: OrganizationService) { }
 
   @Post('organization')
-  async create(@Body() createDto: CreateOrganizationDto): Promise<CreateOrganizationDto> {
+  async create(@Body() createDto: OrganizationDTO): Promise<OrganizationDTO> {
     return await this.service.create(createDto);
   }
 
   @Get('organization')
-  async findAll(): Promise<CreateOrganizationDto[]> {
+  async findAll(): Promise<OrganizationDTO[]> {
     return await this.service.findAll();
   }
 
   @Get('organization/:id')
-  async findOne(@Param('id') id: string): Promise<CreateOrganizationDto> {
-    return this.service.findOne(id);
+  async findOne(@Param('id') id: string): Promise<OrganizationDTO> {
+    return await this.service.findOne(id);
   }
 
   @Patch('organization/:id')
   async update(@Param('id') id: string, @Body() updateDto: UpdateDto): Promise<UpdateDto> {
-    return this.service.update(id, updateDto);
+    return await this.service.update(id, updateDto);
   }
 
   @Delete('organization/:id')
   async remove(@Param('id') id: string) {
-    return this.service.remove(id);
+    return await this.service.remove(id);
   }
 }

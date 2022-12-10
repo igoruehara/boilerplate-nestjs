@@ -5,7 +5,7 @@ import {  UserController } from './controller/core.controller';
 import { LogicService as UserLogicService } from './services/logic.service';
 import { DatabaseModule } from 'src/database/database.module';
 import { JwtModule } from '@nestjs/jwt';
-import { JWT_SECRET } from 'src/constants';
+import { JWT_SECRET } from 'src/constants-global';
 import { CriptService } from '../utils/bcrypt.service';
 import { PassportModule } from '@nestjs/passport';
 import { connectProviders } from './services/connect.providers';

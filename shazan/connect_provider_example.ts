@@ -1,7 +1,7 @@
 import { Connection } from 'mongoose';
-import { STRING_URL_DATABASE_CONNECTION } from 'src/constants';
-import { CONNECTION_MODEL_NAME, MODEL_NAME } from '../constants/constants';
-import { EntitySchema } from '../schemas/entity.schema';
+import { STRING_URL_DATABASE_CONNECTION } from '../constants-global';
+import { CONNECTION_MODEL_NAME, MODEL_NAME } from './_entity_-constants-model';
+import { EntitySchema } from './_entity_-schema';
 
 export const connectProviders = [
   {

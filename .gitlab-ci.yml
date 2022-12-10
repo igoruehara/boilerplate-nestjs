@@ -1,0 +1,57 @@
+image: node:14
+stages:
+  #  - test
+    - deploy-aws
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - .npm/
+    - ./dist
+   # - /root/.sonar/native-sonar-scanner
+#test:
+#    stage: test
+#    before_script:
+#        - npm ci --cache .npm --prefer-offline
+#    script:
+#        - npm run test
+#        - npm run sonar
+.deploy-aws:
+    stage: deploy-aws
+    image: docker:19.03.12
+    services:
+      - docker:19.03.12-dind
+    variables:
+        TZ: "America/Sao_Paulo"
+    before_script:
+        #- apk add -U nodejs npm s d
+        #- npm ci --cache .npm --prefer-offline
+        #- apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/v3.13/main/ nodejs-current==15.14.0-r0 
+        - apk add nodejs --repository="http://dl-cdn.alpinelinux.org/alpine/v3.13/main/" npm
+        - node -v
+        - npm i serverless
+        - ./node_modules/serverless/bin/serverless.js config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY
+        - ./node_modules/serverless/bin/serverless.js deploy --stage $DEPLOY_STAGE
+deploy-aws:dev:
+    extends: .deploy-aws
+    variables:
+        AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+        DEPLOY_STAGE: dev
+    environment:
+        name: develop
+    script:
+        - echo 'Finished Develop Aws PIPE'
+    only:
+        - develop
+deploy-aws:prd:
+    extends: .deploy-aws
+    variables:
+        AWS_ACCESS_KEY_ID: $PRD_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY: $PRD_SECRET_ACCESS_KEY
+        DEPLOY_STAGE: prd
+    environment:
+        name: prod
+    script:
+        - echo 'Finished production Aws PIPE'
+    only:
+        - tags

@@ -1,6 +1,6 @@
 // src/database/database.providers.ts
 import * as mongoose from 'mongoose';
-import { MONO_DB_CONNECTION_STRING, STRING_URL_DATABASE_CONNECTION } from '../constants';
+import { MONO_DB_CONNECTION_STRING, STRING_URL_DATABASE_CONNECTION } from '../constants-global';
 
 export const databaseProviders = [
   {
