@@ -12,9 +12,10 @@
 - [x] Docker
 - [x] Swagger (Local/Serverless)
 - [x] Request API external example with @nestjs/axios
-- [x] Pipeline deploy to AWS Lambda from Github Actions
+- [x] Pipeline deploy to AWS Lambda from GitHub Actions
 - [x] Pipeline deploy to AWS Lambda from Gitlab
 - [x] Roles Guard (user and admin)
+- [x] Integration with `@igoruehara/canvas-flow`
 
 ## Installation
 
@@ -22,9 +23,16 @@
 $ npm install
 ```
 
-## Running the app
+### Added dependency
 
-````bash
+The branch `new-teste` adds the dependency below to `package.json`:
+
+```json
+"@igoruehara/canvas-flow": "latest"
+```
+
+## Running the app
+```bash
 # development
 $ npm run start
 
@@ -36,6 +44,7 @@ $ npm run start:prod
 
 # Deploy to Serverless AWS Lambda, pipeline from Github Actions, config path .github
 $ npm run deploy
+```
 
 ## Test
 
@@ -48,7 +57,7 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
-````
+```
 
 ## Use JWT extends in other project
 
